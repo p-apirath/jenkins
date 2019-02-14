@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.141
+FROM jenkins/jenkins:2.164
 # if we want to install via apt
 USER root
 # RUN apt-get update && apt-get install -y ruby make more-thing-here
