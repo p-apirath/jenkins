@@ -1,18 +1,14 @@
 version: '3'
 services:
   jenkins:
-#    image: jenkins/jenkins:2.141
-    image: apirath/jenkins-docker:v2.141-v18.06.1-ce
+    image: jenkins/jenkins:2.164-alpine
     volumes:
       - "${PWD}/var/jenkins_home:/var/jenkins_home"
-      - "/etc/localtime:/etc/localtime:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - "/usr/local/bin:/user/bin"
-#      - "${PWD}/init.groovy:/usr/share/jenkins/ref/init.groovy.d/executors.groovy"
+      - "${PWD}/init.groovy:/usr/share/jenkins/ref/init.groovy.d/executors.groovy"
+      # - "/etc/localtime:/etc/localtime:ro"
     ports:
       - "8080:8080"
       - "50000:50000"
     restart: always
-    privileged: true
     environment:
-      - JAVA_OPTS="-Duser.timezone=ICT"
+      JAVA_OPTS: "-Duser.timezone=ICT"
