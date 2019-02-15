@@ -8,8 +8,24 @@ RUN echo "http://dl-2.alpinelinux.org/alpine/edge/community" >> /etc/apk/reposit
 RUN echo "http://dl-2.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 # Install the latest Docker CE binaries
-RUN apk -U --no-cache --allow-untrusted add shadow 'docker=18.09.1-r0' py-pip && pip install docker-compose
+RUN apk -U --no-cache --allow-untrusted add shadow 'docker=18.09.1-r0' nodejs py-pip && pip install docker-compose
 RUN usermod -aG docker jenkins
+
+# Install Jenkins Plugins
+COPY plugins.txt /usr/share/jenkins/plugins.txt
+RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
+
+# copy custom built plugins
+COPY plugins/*.hpi /usr/share/jenkins/ref/plugins/
+
+# so we can use jenkins cli
+COPY config/jenkins.properties /usr/share/jenkins/ref/
+
+# remove executors in master
+COPY config/*.groovy /usr/share/jenkins/ref/init.groovy.d/
+
+# lets configure Jenkins with some defaults
+COPY config/*.xml /usr/share/jenkins/ref/
 
 # Minimize size
 RUN rm -rf /var/lib/apt/lists/* /var/cache/apk/* /usr/share/man /tmp/*
