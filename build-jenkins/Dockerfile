@@ -1,14 +1,18 @@
-FROM jenkins/jenkins:2.164
-# if we want to install via apt
+FROM jenkins/jenkins:2.164-alpine
+# if we want to install via apk
 USER root
-# RUN apt-get update && apt-get install -y ruby make more-thing-here
-RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install -y apt-utils
-RUN apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common
-RUN curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs) stable"
-RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install -y docker-ce
-#RUN groupadd docker
+
+# Update apk repositories
+RUN echo "http://dl-2.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories
+RUN echo "http://dl-2.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+RUN echo "http://dl-2.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+
+# Install the latest Docker CE binaries
+RUN apk -U --no-cache --allow-untrusted add shadow docker py-pip && pip install docker-compose
 RUN usermod -aG docker jenkins
+
+# Minimize size
+RUN rm -rf /var/lib/apt/lists/* /var/cache/apk/* /usr/share/man /tmp/*
+
 # drop back to the regular jenkins user - good practice
 USER jenkins
