@@ -8,7 +8,7 @@ RUN echo "http://dl-2.alpinelinux.org/alpine/edge/community" >> /etc/apk/reposit
 RUN echo "http://dl-2.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 # Install the latest Docker CE binaries
-RUN apk -U --no-cache --allow-untrusted add shadow docker py-pip && pip install docker-compose
+RUN apk -U --no-cache --allow-untrusted add shadow 'go=1.11.5-r0' 'docker=18.09.1-r0' py-pip && pip install docker-compose
 RUN usermod -aG docker jenkins
 
 # Minimize size
