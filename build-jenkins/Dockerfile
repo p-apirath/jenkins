@@ -1,15 +1,14 @@
-FROM jenkins/jenkins:2.164-alpine
+FROM jenkins/jenkins:2.177-alpine
 # if we want to install via apk
 USER root
 
 # Update apk repositories
-RUN echo "http://dl-2.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories
-RUN echo "http://dl-2.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
-RUN echo "http://dl-2.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+RUN echo "http://dl-2.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories && \
+    echo "http://dl-2.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+    echo "http://dl-2.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 # Install the latest Docker CE binaries
-RUN apk -U --no-cache --allow-untrusted add shadow 'docker=18.09.1-r0' nodejs py-pip && pip install docker-compose
-RUN usermod -aG docker jenkins
+RUN apk -U --no-cache --allow-untrusted add shadow docker docker-compose kubernetes maven go nodejs py-pip py-setuptools && pip install --upgrade pip && usermod -aG docker jenkins
 
 # Install Jenkins Plugins
 COPY plugins.txt /usr/share/jenkins/plugins.txt

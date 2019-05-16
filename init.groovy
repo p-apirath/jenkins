@@ -1,6 +1,6 @@
 import hudson.model.*;
 import jenkins.model.*;
-Jenkins.instance.setNumExecutors(5);
+Jenkins.instance.setNumExecutors(3);
 
 Thread.start {
       sleep 10000
