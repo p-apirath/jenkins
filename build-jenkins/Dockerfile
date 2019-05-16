@@ -8,7 +8,7 @@ RUN echo "http://dl-2.alpinelinux.org/alpine/edge/community" >> /etc/apk/reposit
 RUN echo "http://dl-2.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 # Install the latest Docker CE binaries
-RUN apk -U --no-cache --allow-untrusted add shadow 'docker=18.09.1-r0' nodejs py-pip && pip install docker-compose
+RUN apk -U --no-cache --allow-untrusted add shadow docker docker-compose kubernetes maven go nodejs py-pip py-setuptools && pip install --upgrade pip
 RUN usermod -aG docker jenkins
 
 # Install Jenkins Plugins
