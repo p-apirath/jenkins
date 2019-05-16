@@ -5,10 +5,12 @@ USER root
 # Update apk repositories
 RUN echo "http://dl-2.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories && \
     echo "http://dl-2.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
-    echo "http://dl-2.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+    echo "http://dl-2.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
+    apk -U --no-cache --allow-untrusted add shadow docker docker-compose kubernetes maven go nodejs py-pip py-setuptools
 
 # Install the latest Docker CE binaries
-RUN apk -U --no-cache --allow-untrusted add shadow docker docker-compose kubernetes maven go nodejs py-pip py-setuptools && pip install --upgrade pip && usermod -aG docker jenkins
+RUN pip install --upgrade pip && \
+    usermod -aG docker jenkins
 
 # Minimize size
 RUN rm -rf /var/lib/apt/lists/* /var/cache/apk/* /usr/share/man /tmp/*
