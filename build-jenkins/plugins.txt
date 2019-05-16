@@ -1,3 +1,5 @@
+JDK_Parameter_Plugin:latest
+Parameterized-Remote-Trigger:latest
 ace-editor:latest
 ansicolor:latest
 ant:latest
@@ -80,7 +82,6 @@ ivy:latest
 jackson2-api:latest
 javadoc:latest
 jdk-tool:latest
-JDK_Parameter_Plugin:latest
 job-dsl:latest
 jobConfigHistory:latest
 jquery-detached:latest
@@ -112,7 +113,6 @@ openJDK-native-plugin:latest
 openshift-login:latest
 pam-auth:latest
 parameterized-trigger:latest
-Parameterized-Remote-Trigger:latest
 pipeline-build-step:latest
 pipeline-github-lib:latest
 pipeline-githubnotify-step:latest
