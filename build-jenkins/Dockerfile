@@ -1,14 +1,36 @@
-FROM jenkins/jenkins:2.141
-# if we want to install via apt
+FROM jenkins/jenkins:2.164-alpine
+# if we want to install via apk
 USER root
-# RUN apt-get update && apt-get install -y ruby make more-thing-here
-RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install -y apt-utils
-RUN apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common
-RUN curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs) stable"
-RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install -y docker-ce
-#RUN groupadd docker
+
+# Update apk repositories
+RUN echo "http://dl-2.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories
+RUN echo "http://dl-2.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+RUN echo "http://dl-2.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+
+# Install the latest Docker CE binaries
+RUN apk -U --no-cache --allow-untrusted add shadow docker docker-compose kubernetes maven go nodejs py-pip py-setuptools && pip install --upgrade pip
+
+# Add jenkins to docker group
 RUN usermod -aG docker jenkins
+
+# Minimize size
+RUN rm -rf /var/lib/apt/lists/* /var/cache/apk/* /usr/share/man /tmp/*
+
 # drop back to the regular jenkins user - good practice
 USER jenkins
+
+# Install Jenkins Plugins
+COPY plugins.txt /usr/share/jenkins/plugins.txt
+RUN /usr/local/bin/install-plugins.sh $(cat /usr/share/jenkins/plugins.txt)
+
+# copy custom built plugins
+COPY plugins/*.hpi /usr/share/jenkins/ref/plugins/
+
+# so we can use jenkins cli
+COPY config/jenkins.properties /usr/share/jenkins/ref/
+
+# remove executors in master
+COPY config/*.groovy /usr/share/jenkins/ref/init.groovy.d/
+
+# lets configure Jenkins with some defaults
+COPY config/*.xml /usr/share/jenkins/ref/

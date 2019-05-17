@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-slave
+  labels:
+    app: jenkins-slave
+  namespace: kong-cluster
+spec:
+  clusterIP: None
+  selector:
+    app: jenkins-slave
+---
+apiVersion: "apps/v1beta1"
+kind: StatefulSet
+metadata:
+  namespace: kong-cluster
+  name: jenkins-slave
+  labels:
+    app: jenkins-slave
+spec:
+  serviceName: jenkins-slave
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: jenkins-slave
+    spec:
+      containers:
+      - name: jenkins-slave
+        image: eeacms/jenkins-slave
+        imagePullPolicy: Always
+        env:
+        - name: "JAVA_OPTS"
+          valueFrom:
+            configMapKeyRef:
+              name: jenkins-config
+              key: java_options
+        # - name: "JENKINS_OPTS"
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: jenkins-config
+        #       key: jenkins_options
+        - name: "JENKINS_MASTER"
+          valueFrom:
+            configMapKeyRef:
+              name: jenkins-config
+              key: jenkins_master
+        - name: "JENKINS_NAME"
+          valueFrom:
+            configMapKeyRef:
+              name: jenkins-config
+              key: jenkins_name
+        - name: "JENKINS_USER"
+          valueFrom:
+            configMapKeyRef:
+              name: jenkins-config
+              key: jenkins_user
+        - name: "JENKINS_PASS"
+          valueFrom:
+            secretKeyRef:
+              name: jenkins-secrets
+              key: jenkins_pass
+        - name: "JENKINS_RETRY"
+          valueFrom:
+            configMapKeyRef:
+              name: jenkins-config
+              key: jenkins_retry
+        - name: "JENKINS_EXECUTORS"
+          valueFrom:
+            configMapKeyRef:
+              name: jenkins-config
+              key: jenkins_executors
+        volumeMounts:
+        - mountPath: "/var/jenkins_home/worker"
+          name: jenkins-slave-data
+  volumeClaimTemplates:
+  - metadata:
+      name: jenkins-slave-data
+      annotations:
+        volume.beta.kubernetes.io/storage-class: gcp-storage
+    spec:
+      # persistentVolumeReclaimPolicy: Delete
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 6Gi

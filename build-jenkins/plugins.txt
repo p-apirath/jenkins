@@ -1,0 +1,12 @@
+JDK_Parameter_Plugin:latest
+build-monitor-plugin:latest
+dashboard-view:latest
+docker-plugin:latest
+git:latest
+git-client:latest
+gitlab-plugin:latest
+jdk-tool:latest
+maven-plugin:latest
+pipeline-maven:latest
+workflow-job:latest
+workflow-aggregator:latest
