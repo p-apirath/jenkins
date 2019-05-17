@@ -4,10 +4,10 @@ services:
     # image: jenkins/jenkins:2.164-alpine
     image: apirath/jenkins-docker:v2.164-alpine
     volumes:
-      - "${PWD}/var/jenkins_home:/var/jenkins_home"
+      # - "${PWD}/var/jenkins_home:/var/jenkins_home"
       # - "/etc/localtime:/etc/localtime:ro"
       # - "/usr/local/bin:/user/bin"
-      # - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
       - "8080:8080"
       - "50000:50000"
