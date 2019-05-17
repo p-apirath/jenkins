@@ -9,6 +9,8 @@ RUN echo "http://dl-2.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositor
 
 # Install the latest Docker CE binaries
 RUN apk -U --no-cache --allow-untrusted add shadow docker docker-compose kubernetes maven go nodejs py-pip py-setuptools && pip install --upgrade pip
+
+# Add user jenkins to docker group
 RUN usermod -aG docker jenkins
 
 # Minimize size
