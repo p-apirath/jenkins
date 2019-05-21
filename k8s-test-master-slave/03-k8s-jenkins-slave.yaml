@@ -4,7 +4,6 @@ metadata:
   name: jenkins-slave
   labels:
     app: jenkins-slave
-  namespace: kong-cluster
 spec:
   clusterIP: None
   selector:
@@ -13,7 +12,6 @@ spec:
 apiVersion: "apps/v1beta1"
 kind: StatefulSet
 metadata:
-  namespace: kong-cluster
   name: jenkins-slave
   labels:
     app: jenkins-slave

@@ -6,7 +6,6 @@ metadata:
   name: jenkins-master-data
   labels:
     app: jenkins-master-data
-  namespace: kong-cluster
   annotations:
     volume.beta.kubernetes.io/storage-class: gcp-storage
 spec:
@@ -19,7 +18,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: kong-cluster
   name: jenkins-master
   labels:
     app: jenkins-master
@@ -34,7 +32,6 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  namespace: kong-cluster
   name: jenkins-master
   labels:
     app: jenkins-master
