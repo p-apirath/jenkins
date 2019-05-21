@@ -20,9 +20,6 @@ RUN pip install --upgrade pip
 # Minimize size
 RUN rm -rf /var/lib/apt/lists/* /var/cache/apk/* /usr/share/man /tmp/*
 
-# drop back to the regular jenkins user - good practice
-# USER jenkins
-
 # Install Jenkins Plugins
 COPY plugins.txt /usr/share/jenkins/plugins.txt
 RUN /usr/local/bin/install-plugins.sh $(cat /usr/share/jenkins/plugins.txt)
@@ -38,3 +35,6 @@ COPY config/*.groovy /usr/share/jenkins/ref/init.groovy.d/
 
 # lets configure Jenkins with some defaults
 # COPY config/*.xml /usr/share/jenkins/ref/
+
+# drop back to the regular jenkins user - good practice
+# USER jenkins
