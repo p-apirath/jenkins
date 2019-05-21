@@ -13,8 +13,6 @@ RUN echo "http://dl-2.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories 
 
 # Update pip and add jenkins to docker group
 RUN pip install --upgrade pip
-# add jenkins to docker group
-    usermod -aG docker jenkins
 
 # Minimize size
 RUN rm -rf /var/lib/apt/lists/* /var/cache/apk/* /usr/share/man /tmp/*
