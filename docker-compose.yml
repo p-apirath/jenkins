@@ -5,7 +5,7 @@ services:
     # image: apirath/jenkins-docker:v2.177-alpine
     build: ./build-jenkins
     volumes:
-      # - "${PWD}/var/jenkins_home:/var/jenkins_home"
+      - "${PWD}/var/jenkins_home:/var/jenkins_home"
       # - "/etc/localtime:/etc/localtime:ro"
       # - "/usr/local/bin:/user/bin"
       - "/var/run/docker.sock:/var/run/docker.sock"
