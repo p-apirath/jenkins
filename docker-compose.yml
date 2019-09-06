@@ -1,11 +1,11 @@
 version: '3.2'
 services:
   jenkins:
-    # image: jenkins/jenkins:2.177-alpine
-    # image: apirath/jenkins-docker:v2.177-alpine
-    build: ./build-jenkins
+    # image: jenkins/jenkins:latest
+    image: apirath/jenkins-docker:latest
+    # build: ./build-jenkins
     volumes:
-      - "${PWD}/var/jenkins_home:/var/jenkins_home"
+      - "${PWD}/jenkins_home:/var/jenkins_home"
       # - "/etc/localtime:/etc/localtime:ro"
       # - "/usr/local/bin:/user/bin"
       - "/var/run/docker.sock:/var/run/docker.sock"

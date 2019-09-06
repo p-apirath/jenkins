@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.178-alpine
+FROM jenkins/jenkins:2.193-alpine
 # if we want to install via apk
 USER root
 
@@ -9,7 +9,7 @@ RUN echo "http://dl-2.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories 
 
 # Install the latest Docker CE binaries
     apk update && \
-    apk -U --no-cache --allow-untrusted add shadow docker docker-compose kubernetes maven go nodejs py-pip py-setuptools
+    apk -U --no-cache --allow-untrusted add shadow docker ansible docker-compose kubernetes php maven go nodejs yarn npm py-pip py-setuptools
 
 # Update pip and add jenkins to docker group
 RUN pip install --upgrade pip

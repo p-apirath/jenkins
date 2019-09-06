@@ -4,6 +4,8 @@
 var
 var/**
 **/values-custom.yaml
+jenkins_home
+jenkins_home/**
 
 ########################################################################
 ### JetBrains.gitignore
