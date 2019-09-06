@@ -28,7 +28,8 @@ RUN /usr/local/bin/install-plugins.sh $(cat /usr/share/jenkins/plugins.txt)
 COPY config/jenkins.properties /usr/share/jenkins/ref/
 
 # remove executors in master
-COPY config/*.groovy /usr/share/jenkins/ref/init.groovy.d/
+# COPY config/*.groovy /usr/share/jenkins/ref/init.groovy.d/
+COPY config/master-executors.groovy /usr/share/jenkins/ref/init.groovy.d/
 
 # lets configure Jenkins with some defaults
 # COPY config/*.xml /usr/share/jenkins/ref/
