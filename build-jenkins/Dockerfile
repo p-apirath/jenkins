@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.189-alpine
+FROM jenkins/jenkins:2.193-alpine
 # if we want to install via apk
 USER root
 
