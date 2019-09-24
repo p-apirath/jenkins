@@ -38,6 +38,7 @@ COPY config/*.groovy /usr/share/jenkins/ref/init.groovy.d/
 # drop back to the regular jenkins user - good practice
 # USER jenkins
 
+# sonar-scanner-cli: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/
 RUN curl https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}.zip -o sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}.zip && \
     unzip sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}.zip -d /opt/ && \
     ln -sf /opt/sonar-scanner-${SONAR_SCANNER_CLI_VERSION}/sonar-scanner /opt/sonar-scanner-${SONAR_SCANNER_CLI_VERSION}/sonar-scanner-debug /usr/bin && \
