@@ -42,4 +42,5 @@ COPY config/*.groovy /usr/share/jenkins/ref/init.groovy.d/
 RUN curl https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}.zip -o sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}.zip && \
     unzip sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}.zip -d /opt/ && \
     ln -sf /opt/sonar-scanner-${SONAR_SCANNER_CLI_VERSION}/sonar-scanner /opt/sonar-scanner-${SONAR_SCANNER_CLI_VERSION}/sonar-scanner-debug /usr/bin && \
+    ln -sf /opt/sonar-scanner-${SONAR_SCANNER_CLI_VERSION}/bin/sonar-scanner /opt/sonar-scanner-${SONAR_SCANNER_CLI_VERSION}/bin/sonar-scanner-debug /bin/ && \
     rm -f sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}.zip
