@@ -1,6 +1,7 @@
-FROM jenkins/jenkins:2.193-alpine
+FROM jenkins/jenkins:2.196-alpine
 # if we want to install via apk
 USER root
+ENV SONAR_SCANNER_CLI_VERSION 4.1.0.1829
 
 # Update apk repositories
 RUN echo "http://dl-2.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories && \
@@ -28,11 +29,16 @@ RUN /usr/local/bin/install-plugins.sh $(cat /usr/share/jenkins/plugins.txt)
 COPY config/jenkins.properties /usr/share/jenkins/ref/
 
 # remove executors in master
-# COPY config/*.groovy /usr/share/jenkins/ref/init.groovy.d/
-COPY config/master-executors.groovy /usr/share/jenkins/ref/init.groovy.d/
+COPY config/*.groovy /usr/share/jenkins/ref/init.groovy.d/
+# COPY config/master-executors.groovy /usr/share/jenkins/ref/init.groovy.d/
 
 # lets configure Jenkins with some defaults
 # COPY config/*.xml /usr/share/jenkins/ref/
 
 # drop back to the regular jenkins user - good practice
 # USER jenkins
+
+RUN curl https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}.zip -o sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}.zip && \
+    unzip sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}.zip -d /opt/ && \
+    ln -sf /opt/sonar-scanner-${SONAR_SCANNER_CLI_VERSION}/sonar-scanner /opt/sonar-scanner-${SONAR_SCANNER_CLI_VERSION}/sonar-scanner-debug /usr/bin && \
+    rm -f sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}.zip
