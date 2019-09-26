@@ -1,2 +1,2 @@
 # Jenkins with docker runtime
-Jenkins including docker, docker-compose, Go, maven, node, kubectl
+Jenkins including docker, kubectl, go, maven, php, python, node, dotnet, sonar-scanner.
