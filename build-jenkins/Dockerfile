@@ -60,5 +60,5 @@ RUN wget -O dotnet.tar.gz https://dotnetcli.blob.core.windows.net/dotnet/Runtime
     && dotnet-install.sh --channel 2.1 --install-dir /usr/share/dotnet/ \
     # Install dotnet sdk v2.2
     && dotnet-install.sh --channel 2.2 --install-dir /usr/share/dotnet/ \
-    # Install dotnet sdk v2.3
+    # Install dotnet sdk v3.0
     && dotnet-install.sh --channel 3.0 --install-dir /usr/share/dotnet/
