@@ -1,14 +1,16 @@
-FROM jenkins/jenkins:2.196-alpine
+FROM jenkins/jenkins:2.197-alpine
 # if we want to install via apk
 USER root
+
 ENV SONAR_SCANNER_CLI_VERSION 4.1.0.1829
+ENV DOTNET_VERSION 3.0.0
 
 # Update apk repositories
 RUN echo "http://dl-2.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories && \
     echo "http://dl-2.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     echo "http://dl-2.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
 
-# Install the latest Docker CE binaries
+    # Install the latest Docker CE binaries
     apk update && \
     apk -U --no-cache --allow-untrusted add shadow docker ansible docker-compose kubernetes php maven go nodejs yarn npm py-pip py-setuptools
 
@@ -43,3 +45,12 @@ RUN curl https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-s
     unzip sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}.zip -d /opt/ && \
     ln -sf /opt/sonar-scanner-${SONAR_SCANNER_CLI_VERSION}/bin/sonar-scanner /opt/sonar-scanner-${SONAR_SCANNER_CLI_VERSION}/bin/sonar-scanner-debug /usr/bin && \
     rm -f sonar-scanner-cli-${SONAR_SCANNER_CLI_VERSION}.zip
+
+# Install .NET Core: https://github.com/dotnet/dotnet-docker/blob/master/3.0/runtime/alpine3.9/amd64/Dockerfile
+RUN wget -O dotnet.tar.gz https://dotnetcli.blob.core.windows.net/dotnet/Runtime/$DOTNET_VERSION/dotnet-runtime-$DOTNET_VERSION-linux-musl-x64.tar.gz \
+    && dotnet_sha512='a7382fbfabbfe859a66151760f199799d093a88c50a6f2fd97f31a7d6d688d9978526b9637c5e10b95a3155f76d5032cc7f054bb168915eeacf0dd759ada8b54' \
+    && echo "$dotnet_sha512  dotnet.tar.gz" | sha512sum -c - \
+    && mkdir -p /usr/share/dotnet \
+    && tar -C /usr/share/dotnet -xzf dotnet.tar.gz \
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
+    && rm dotnet.tar.gz
