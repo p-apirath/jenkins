@@ -12,7 +12,7 @@ RUN echo "http://dl-2.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories 
 
   # Install the latest Docker CE binaries
   && apk update \
-  && apk -U --no-cache --allow-untrusted add shadow docker ansible docker-compose kubernetes php maven go nodejs yarn npm py-pip py-setuptools libunwind libunwind-dev libssl1.1 icu-libs libcurl
+  && apk -U --no-cache --allow-untrusted add shadow docker ansible docker-compose kubernetes php maven go nodejs yarn npm py-pip py-setuptools libunwind libunwind-dev libssl1.1 icu-libs libcurl libintl
 
 # Copy Jenkins Plugins
 COPY plugins.txt /usr/share/jenkins/plugins.txt
